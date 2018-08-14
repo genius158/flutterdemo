@@ -25,11 +25,7 @@ class FirstTabStatue extends State<FirstTab>  with AutomaticKeepAliveClientMixin
             new IconButton(
                 icon: new Icon(Icons.map),
                 onPressed: () {
-                  Navigator
-                      .of(context)
-                      .push(new MaterialPageRoute(builder: (_) {
-                    return new MainTab();
-                  }));
+                  Navigator.of(context).pushNamed('/sub');
                 }),
             new Text("line1"),
             new Text(

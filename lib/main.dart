@@ -7,8 +7,7 @@ import './page/second.dart';
 import './page/main_page.dart';
 import './main_store.dart';
 
-void main() =>
-    runApp(new MyApp(
+void main() => runApp(new MyApp(
       store: new Store<MainState>(
         mainReducer,
         initialState: new MainState(
@@ -29,13 +28,20 @@ class MyApp extends StatelessWidget {
         store: store,
         child: new StoreConnector<MainState, MaterialColor>(
             converter: (Store<MainState> sc) {
-              return sc.state.themeData;
-            }, builder: (BuildContext context, MaterialColor themeColor) {
+          return sc.state.themeData;
+        }, builder: (BuildContext context, MaterialColor themeColor) {
           return new MaterialApp(
             title: 'Flutter Demo',
             theme: new ThemeData(
               primaryColor: themeColor,
             ),
+            routes: <String, WidgetBuilder>{
+              '/sub': (BuildContext context) => new MainTab(
+                    onThemeChange: () {
+                      store.dispatch(new RefreshThemeDataAction(Colors.blue));
+                    },
+                  ),
+            },
             home: new MyHomePage(
               title: 'Flutter Demo Home Page',
               store: store,
