@@ -1,18 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_app/main_store.dart';
 import 'package:flutter_app/theme_redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:http/http.dart';
-import 'package:redux/redux.dart';
-
 import '../widget/scale_button.dart';
 import './main_page_list.dart';
 import '../widget/banner_view.dart';
 
 class MainTab extends StatefulWidget {
+  VoidCallback onThemeChange;
+
+  MainTab({Key key, this.onThemeChange}) : super(key: key);
+
   @override
   MainTabStatue createState() => new MainTabStatue();
 }
@@ -41,14 +39,7 @@ class MainTabStatue extends State<MainTab> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-//    new StoreConnector<MainState, MaterialColor>(
-//        converter: (Store<MainState> sc) {
-//      return sc.state.themeData;
-//    }, builder: (BuildContext context, MaterialColor themeColor) {
-//      return getMainLayout();
-//    });
-
-   return getMainLayout();
+    return getMainLayout();
   }
 
   getMainLayout() {
@@ -94,9 +85,7 @@ class MainTabStatue extends State<MainTab> with AutomaticKeepAliveClientMixin {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      StoreProvider.of<MainState>(context)
-                          .dispatch(new RefreshThemeDataAction(Colors.blue));
-
+                      widget.onThemeChange();
                       onMoreClick(new AlertDialog(
                         content: new Text(
                           "CLICKED MORE",

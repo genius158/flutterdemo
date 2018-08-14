@@ -7,15 +7,20 @@ import './page/second.dart';
 import './page/main_page.dart';
 import './main_store.dart';
 
-void main() => runApp(new MyApp());
+void main() =>
+    runApp(new MyApp(
+      store: new Store<MainState>(
+        mainReducer,
+        initialState: new MainState(
+          themeData: Colors.blue,
+        ),
+      ),
+    ));
 
 class MyApp extends StatelessWidget {
-  final store = new Store<MainState>(
-    mainReducer,
-    initialState: new MainState(
-      themeData: Colors.blue,
-    ),
-  );
+  Store<MainState> store;
+
+  MyApp({this.store});
 
   // This widget is the root of your application.
   @override
@@ -24,8 +29,8 @@ class MyApp extends StatelessWidget {
         store: store,
         child: new StoreConnector<MainState, MaterialColor>(
             converter: (Store<MainState> sc) {
-          return sc.state.themeData;
-        }, builder: (BuildContext context, MaterialColor themeColor) {
+              return sc.state.themeData;
+            }, builder: (BuildContext context, MaterialColor themeColor) {
           return new MaterialApp(
             title: 'Flutter Demo',
             theme: new ThemeData(
@@ -74,9 +79,13 @@ class _MyHomePageState extends State<MyHomePage>
   void tabClick() {
     print("value    " + controller.index.toString());
     if (controller.index == 0) {
-      StoreProvider.of<MainState>(context)
-          .dispatch(new RefreshThemeDataAction(Colors.red));
+      changeTheme(Colors.red);
     }
+  }
+
+  void changeTheme(MaterialColor color) {
+    StoreProvider.of<MainState>(context)
+        .dispatch(new RefreshThemeDataAction(color));
   }
 
   @override
@@ -87,6 +96,17 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+//    return new StoreConnector<MainState, MainState>(
+//        converter: (Store<MainState> sc) {
+//      return sc.state;
+//    }, builder: (BuildContext context, MainState themeColor) {
+//      return getMainLayout();
+//    });
+
+    return getMainLayout();
+  }
+
+  getMainLayout() {
     return new Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -111,11 +131,10 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   getMainTab() {
-    return new StoreConnector<MainState, MainState>(
-        converter: (Store<MainState> sc) {
-      return sc.state;
-    }, builder: (BuildContext context, MainState themeColor) {
-      return new MainTab();
-    });
+    return new MainTab(
+      onThemeChange: () {
+        changeTheme(Colors.blue);
+      },
+    );
   }
 }
