@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void tabClick() {
-    print("value   " + controller.index.toString());
+    print("value    " + controller.index.toString());
     if (controller.index == 0) {
       StoreProvider.of<MainState>(context)
           .dispatch(new RefreshThemeDataAction(Colors.red));
