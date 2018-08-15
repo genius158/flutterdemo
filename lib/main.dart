@@ -36,16 +36,25 @@ class MyApp extends StatelessWidget {
               primaryColor: themeColor,
             ),
             routes: <String, WidgetBuilder>{
+              '/': (context) {
+                return StoreBuilder<MainState>(
+                  builder: (context, store) {
+                    return MyHomePage(
+                      title: 'Flutter Demo Home Page',
+                    );
+                  },
+                );
+              },
               '/sub': (BuildContext context) => new MainTab(
                     onThemeChange: () {
                       store.dispatch(new RefreshThemeDataAction(Colors.blue));
                     },
                   ),
             },
-            home: new MyHomePage(
-              title: 'Flutter Demo Home Page',
-              store: store,
-            ),
+//            home: new MyHomePage(
+//              title: 'Flutter Demo Home Page',
+//              store: store,
+//            ),
           );
         }));
   }

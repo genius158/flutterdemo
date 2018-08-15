@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main_store.dart';
 import 'package:flutter_app/theme_redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import '../widget/scale_button.dart';
 import './main_page_list.dart';
 import '../widget/banner_view.dart';
@@ -79,21 +82,24 @@ class MainTabStatue extends State<MainTab> with AutomaticKeepAliveClientMixin {
                       style: new TextStyle(color: Colors.white, fontSize: 16.0),
                     ),
                   ),
-                  new IconButton(
-                    icon: new Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      widget.onThemeChange();
-                      onMoreClick(new AlertDialog(
-                        content: new Text(
-                          "CLICKED MORE",
-                          textAlign: TextAlign.center,
-                        ),
-                      ));
-                    },
-                  ),
+                  getButtonWrapStore(),
+//                  new IconButton(
+//                    icon: new Icon(
+//                      Icons.more_horiz,
+//                      color: Colors.white,
+//                    ),
+//                    onPressed: () {
+////                      widget.onThemeChange();
+//                      StoreProvider.of<MainState>(context)
+//                          .dispatch(new RefreshThemeDataAction(Colors.amber));
+//                      onMoreClick(new AlertDialog(
+//                        content: new Text(
+//                          "CLICKED MORE",
+//                          textAlign: TextAlign.center,
+//                        ),
+//                      ));
+//                    },
+//                  ),
                 ],
               ),
               color: Theme.of(context).primaryColor,
@@ -183,5 +189,46 @@ class MainTabStatue extends State<MainTab> with AutomaticKeepAliveClientMixin {
     await Future.delayed(Duration(seconds: 2));
 
     setState(() {});
+  }
+
+  getButtonWrapStore() {
+//    return StoreConnector<MainState, VoidCallback>(
+//      converter: (Store<MainState> store) {
+//        store.dispatch(RefreshThemeDataAction(Colors.blue));
+//      },
+//      builder: (BuildContext context, VoidCallback onSave) {
+//        return new IconButton(
+//          icon: new Icon(
+//            Icons.more_horiz,
+//            color: Colors.white,
+//          ),
+//          onPressed: () {
+//            onSave();
+//            onMoreClick(new AlertDialog(
+//              content: new Text(
+//                "CLICKED MORE",
+//                textAlign: TextAlign.center,
+//              ),
+//            ));
+//          },
+//        );
+//      },
+//    );
+
+    return new IconButton(
+      icon: new Icon(
+        Icons.more_horiz,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        widget.onThemeChange();
+        onMoreClick(new AlertDialog(
+          content: new Text(
+            "CLICKED MORE",
+            textAlign: TextAlign.center,
+          ),
+        ));
+      },
+    );
   }
 }
